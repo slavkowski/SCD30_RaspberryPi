@@ -24,7 +24,6 @@ public class SCD30Impl implements SCD30 {
     public void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation() {
         byte[] buffer = {0x00, 0x10, 0x00, 0x00, (byte) 0x81};
         writeBuffer(buffer);
-
     }
 
     @Override
