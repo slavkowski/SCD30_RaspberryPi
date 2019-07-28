@@ -1,3 +1,5 @@
+package pl.sats.com.libraries;
+
 import com.pi4j.io.i2c.I2CFactory;
 
 import java.io.IOException;

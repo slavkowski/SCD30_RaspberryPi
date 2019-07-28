@@ -1,3 +1,5 @@
+package pl.sats.com.libraries;
+
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
@@ -6,18 +8,20 @@ import com.pi4j.util.Console;
 import java.io.IOException;
 
 public class SCD30Impl implements SCD30 {
+
+
     private I2CDevice device;
     private Console console = new Console();
 
 
+    public SCD30Impl() throws IOException, I2CFactory.UnsupportedBusNumberException {
+        initializeSCD30();
+    }
+
     @Override
-    public void initializeSCD30() {
-        try {
+    public void initializeSCD30() throws IOException, I2CFactory.UnsupportedBusNumberException {
             I2CBus i2CBus = I2CFactory.getInstance(I2CBus.BUS_1);
             device = i2CBus.getDevice(SCD30_I2C_ADDRESS);
-        } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
-            console.println(e);
-        }
     }
 
     @Override
@@ -96,7 +100,7 @@ public class SCD30Impl implements SCD30 {
     }
 
 
-    int checkCRC8(int[] byteData, int length, int offset) {
+    public int checkCRC8(int[] byteData, int length, int offset) {
         byte crc = (byte) 0xff;
         for (int i = 0; i < length; i++) {
             crc ^= byteData[i + offset];

@@ -1,8 +1,15 @@
+import com.pi4j.io.i2c.I2CFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pl.sats.com.libraries.SCD30Impl;
+
+import java.io.IOException;
 
 class CRC8CheckSumTest {
     private SCD30Impl scd30 = new SCD30Impl();
+
+    CRC8CheckSumTest() throws IOException, I2CFactory.UnsupportedBusNumberException {
+    }
 
     @Test
     void shouldReturnCorrectChecksum() {
