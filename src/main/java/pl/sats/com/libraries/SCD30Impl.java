@@ -77,6 +77,31 @@ public class SCD30Impl implements SCD30 {
         return realData;
     }
 
+    @Override
+    public void activateContinuousCalculation() {
+
+    }
+
+    @Override
+    public void setExternalReferenceValueForForcedRecalibration() {
+
+    }
+
+    @Override
+    public void setTemperatureOffsetForOnboardRHTSensor() {
+
+    }
+
+    @Override
+    public void setAltitudeCompensation() {
+
+    }
+
+    @Override
+    public void softReset() {
+
+    }
+
     private void writeBuffer(byte[] buffer) {
         try {
             device.write(buffer);
