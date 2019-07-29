@@ -24,11 +24,13 @@ public interface SCD30 {
 
     void initializeSCD30() throws IOException, I2CFactory.UnsupportedBusNumberException;
 
-    void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation();
+    void triggerContinuousMeasurements();
+
+    void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation(int pressure);
 
     void stopContinuousMeasurement();
 
-    void setMeasurementInterval();
+    void setMeasurementInterval(int interval);
 
     boolean getDataReadyStatus();
 
