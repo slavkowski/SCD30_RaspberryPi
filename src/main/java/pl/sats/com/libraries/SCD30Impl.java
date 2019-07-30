@@ -9,17 +9,17 @@ import java.io.IOException;
 
 public class SCD30Impl implements SCD30 {
 
-
     private I2CDevice device;
-    private Console console = new Console();
-
+    private byte[] bufferForTesting;
+    private boolean testMode = false;
 
     public SCD30Impl() throws IOException, I2CFactory.UnsupportedBusNumberException {
         initializeSCD30();
     }
 
     public SCD30Impl(boolean testMode) {
-
+        bufferForTesting = new byte[5];
+        this.testMode = testMode;
     }
 
     @Override
@@ -29,14 +29,14 @@ public class SCD30Impl implements SCD30 {
     }
 
     @Override
-    public void triggerContinuousMeasurements() {
+    public void triggerContinuousMeasurements() throws IOException {
         byte[] command = getArgumentsFromCommand(SCD30_CONTINUOUS_MEASUREMENT);
         byte[] buffer = {command[0], command[1], 0x00, 0x00, (byte) 0x81};
         writeBuffer(buffer);
     }
 
     @Override
-    public void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation(int pressure) {
+    public void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation(int pressure) throws IOException {
         if (pressure < 700) {
             pressure = 700;
         } else if (pressure > 1200) {
@@ -50,14 +50,14 @@ public class SCD30Impl implements SCD30 {
 
 
     @Override
-    public void stopContinuousMeasurement() {
+    public void stopContinuousMeasurement() throws IOException {
         byte[] command = getArgumentsFromCommand(SCD30_STOP_MEASUREMENT);
         byte[] buffer = {command[0], command[1]};
         writeBuffer(buffer);
     }
 
     @Override
-    public void setMeasurementInterval(int interval) {
+    public void setMeasurementInterval(int interval) throws IOException {
 
         if (interval < 2) {
             interval = 2;
@@ -74,7 +74,7 @@ public class SCD30Impl implements SCD30 {
 
 
     @Override
-    public boolean getDataReadyStatus() {
+    public boolean getDataReadyStatus() throws IOException {
         byte[] command = getArgumentsFromCommand(SCD30_GET_DATA_READY);
         byte[] buffer = {command[0], command[1]};
         writeBuffer(buffer);
@@ -87,7 +87,7 @@ public class SCD30Impl implements SCD30 {
     }
 
     @Override
-    public float[] readMeasurement() {
+    public float[] readMeasurement() throws IOException {
         byte[] command = getArgumentsFromCommand(SCD30_READ_MEASUREMENT);
         byte[] buffer = {command[0], command[1]};
         float[] realData = {-1.0F, -1.0F, -1.0F};
@@ -111,46 +111,67 @@ public class SCD30Impl implements SCD30 {
     }
 
     @Override
-    public void activateContinuousCalculation() {
-
+    public void activateContinuousCalculation(boolean isActive) throws IOException {
+        byte[] command = getArgumentsFromCommand(SCD30_AUTOMATIC_SELF_CALIBRATION);
+        byte[] argument;
+        if (isActive) {
+            argument = createArgumentWithCRC(1);
+        } else {
+            argument = createArgumentWithCRC(0);
+        }
+        byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
+        writeBuffer(buffer);
     }
+
 
     @Override
-    public void setExternalReferenceValueForForcedRecalibration() {
+    public void setExternalReferenceValueForForcedRecalibration(int refValue) throws IOException {
+        if (400 <= refValue && refValue <= 2000) {
+            byte[] argument = createArgumentWithCRC(refValue);
+            byte[] command = getArgumentsFromCommand(SCD30_SET_FORCED_RECALIBRATION_FACTOR);
 
-    }
-
-    @Override
-    public void setTemperatureOffsetForOnboardRHTSensor() {
-
-    }
-
-    @Override
-    public void setAltitudeCompensation() {
-
-    }
-
-    @Override
-    public void softReset() {
-
-    }
-
-    private void writeBuffer(byte[] buffer) {
-        try {
-            device.write(buffer);
-        } catch (IOException e) {
-            console.println(e);
+            byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
+            writeBuffer(buffer);
         }
     }
 
-    private int[] readBuffer(int length) {
+    @Override
+    public void setTemperatureOffsetForOnboardRHTSensor(int offset) throws IOException {
+        byte[] command = getArgumentsFromCommand(SCD30_SET_TEMPERATURE_OFFSET);
+        byte[] argument = createArgumentWithCRC(offset);
+
+        byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
+        writeBuffer(buffer);
+    }
+
+    @Override
+    public void setAltitudeCompensation(int altitudeCompensation) throws IOException {
+        byte[] command = getArgumentsFromCommand(SCD30_SET_ALTITUDE_COMPENSATION);
+        byte[] argument = createArgumentWithCRC(altitudeCompensation);
+
+        byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
+        writeBuffer(buffer);
+    }
+
+    @Override
+    public void softReset() throws IOException {
+        byte[] command = getArgumentsFromCommand(SCD30_SOFT_RESET);
+        byte[] buffer = {command[0], command[1]};
+        writeBuffer(buffer);
+    }
+
+    private void writeBuffer(byte[] buffer) throws IOException {
+        if (testMode) {
+            bufferForTesting = buffer;
+        } else {
+            device.write(buffer);
+        }
+    }
+
+    private int[] readBuffer(int length) throws IOException {
         byte[] readData = new byte[length];
         int[] readDataUInt = new int[length];
-        try {
-            device.read(readData, 0, length);
-        } catch (IOException e) {
-            console.println(e);
-        }
+        device.read(readData, 0, length);
         for (int i = 0; i < length; i++) {
             readDataUInt[i] = Byte.toUnsignedInt(readData[i]);
         }
@@ -193,4 +214,7 @@ public class SCD30Impl implements SCD30 {
         return Byte.toUnsignedInt(crc);
     }
 
+    public byte[] getBufferForTesting() {
+        return bufferForTesting;
+    }
 }

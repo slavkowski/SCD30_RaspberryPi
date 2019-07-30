@@ -4,6 +4,9 @@ import com.pi4j.io.i2c.I2CFactory;
 
 import java.io.IOException;
 
+/**
+ *
+ */
 public interface SCD30 {
     int SCD30_I2C_ADDRESS = 0x61;
 
@@ -16,33 +19,31 @@ public interface SCD30 {
     int SCD30_SET_FORCED_RECALIBRATION_FACTOR = 0x5204;
     int SCD30_SET_TEMPERATURE_OFFSET = 0x5403;
     int SCD30_SET_ALTITUDE_COMPENSATION = 0x5102;
-    int SCD30_READ_SERIALNBR = 0xD033;
-
-    int SCD30_SET_TEMP_OFFSET = 0x5403;
+    int SCD30_SOFT_RESET = 0xD304;
 
     byte SCD30_POLYNOMIAL = 0x31; // P(x) = x^8 + x^5 + x^4 + 1 = 100110001
 
     void initializeSCD30() throws IOException, I2CFactory.UnsupportedBusNumberException;
 
-    void triggerContinuousMeasurements();
+    void triggerContinuousMeasurements() throws IOException;
 
-    void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation(int pressure);
+    void triggerContinuousMeasurementsWithOptionalAmbientPressureCompensation(int pressure) throws IOException;
 
-    void stopContinuousMeasurement();
+    void stopContinuousMeasurement() throws IOException;
 
-    void setMeasurementInterval(int interval);
+    void setMeasurementInterval(int interval) throws IOException;
 
-    boolean getDataReadyStatus();
+    boolean getDataReadyStatus() throws IOException;
 
-    float[] readMeasurement();
+    float[] readMeasurement() throws IOException;
 
-    void activateContinuousCalculation();
+    void activateContinuousCalculation(boolean isActive) throws IOException;
 
-    void setExternalReferenceValueForForcedRecalibration();
+    void setExternalReferenceValueForForcedRecalibration(int value) throws IOException;
 
-    void setTemperatureOffsetForOnboardRHTSensor();
+    void setTemperatureOffsetForOnboardRHTSensor(int offset) throws IOException;
 
-    void setAltitudeCompensation();
+    void setAltitudeCompensation(int altitudeCompensation) throws IOException;
 
-    void softReset();
+    void softReset() throws IOException;
 }
