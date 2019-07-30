@@ -6,7 +6,7 @@
 
     <groupId>pl.com.sats.libraries</groupId>
     <artifactId>SCD30</artifactId>
-    <version>1.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
