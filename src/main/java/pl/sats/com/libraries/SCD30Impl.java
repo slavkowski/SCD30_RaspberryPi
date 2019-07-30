@@ -30,7 +30,8 @@ public class SCD30Impl implements SCD30 {
 
     @Override
     public void triggerContinuousMeasurements() {
-        byte[] buffer = {0x00, 0x10, 0x00, 0x00, (byte) 0x81};
+        byte[] command = getArgumentsFromCommand(SCD30_CONTINUOUS_MEASUREMENT);
+        byte[] buffer = {command[0], command[1], 0x00, 0x00, (byte) 0x81};
         writeBuffer(buffer);
     }
 
@@ -41,16 +42,17 @@ public class SCD30Impl implements SCD30 {
         } else if (pressure > 1200) {
             pressure = 1200;
         }
-
+        byte[] command = getArgumentsFromCommand(SCD30_CONTINUOUS_MEASUREMENT);
         byte[] argument = createArgumentWithCRC(pressure);
-        byte[] buffer = {0x00, 0x10, argument[0], argument[1], argument[2]};
+        byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
         writeBuffer(buffer);
     }
 
 
     @Override
     public void stopContinuousMeasurement() {
-        byte[] buffer = {0x01, 0x07};
+        byte[] command = getArgumentsFromCommand(SCD30_STOP_MEASUREMENT);
+        byte[] buffer = {command[0], command[1]};
         writeBuffer(buffer);
     }
 
@@ -64,15 +66,17 @@ public class SCD30Impl implements SCD30 {
         }
 
         byte[] argument = createArgumentWithCRC(interval);
+        byte[] command = getArgumentsFromCommand(SCD30_SET_MEASUREMENT_INTERVAL);
 
-        byte[] buffer = {0x46, 0x00, argument[0], argument[1], argument[2]};
+        byte[] buffer = {command[0], command[1], argument[0], argument[1], argument[2]};
         writeBuffer(buffer);
     }
 
 
     @Override
     public boolean getDataReadyStatus() {
-        byte[] buffer = {0x02, 0x02};
+        byte[] command = getArgumentsFromCommand(SCD30_GET_DATA_READY);
+        byte[] buffer = {command[0], command[1]};
         writeBuffer(buffer);
         int[] result = readBuffer(3);
         if (result[2] != checkCRC8(result, 2, 0)) {
@@ -84,7 +88,8 @@ public class SCD30Impl implements SCD30 {
 
     @Override
     public float[] readMeasurement() {
-        byte[] buffer = {0x03, 0x00};
+        byte[] command = getArgumentsFromCommand(SCD30_READ_MEASUREMENT);
+        byte[] buffer = {command[0], command[1]};
         float[] realData = {-1.0F, -1.0F, -1.0F};
         if (!getDataReadyStatus()) {
             return realData;
@@ -152,6 +157,12 @@ public class SCD30Impl implements SCD30 {
         return readDataUInt;
     }
 
+    private byte[] getArgumentsFromCommand(int argument) {
+        byte[] results = new byte[2];
+        results[0] = (byte) ((argument >> 8));
+        results[1] = (byte) (argument);
+        return results;
+    }
 
     public byte[] createArgumentWithCRC(int argument) {
         byte[] results = new byte[3];
