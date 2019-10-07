@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.com.sats.libraries</groupId>
-    <artifactId>SCD30</artifactId>
+    <artifactId>sensors</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
     <properties>

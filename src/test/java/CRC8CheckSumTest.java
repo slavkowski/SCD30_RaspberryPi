@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.com.libraries.SCD30Impl;
+import pl.sats.com.libraries.scd30.SCD30Impl;
 
 
 class CRC8CheckSumTest {

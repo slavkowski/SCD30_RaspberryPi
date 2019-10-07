@@ -1,4 +1,4 @@
-package pl.sats.com.libraries;
+package pl.sats.com.libraries.scd30;
 
 import com.pi4j.io.i2c.I2CFactory;
 
