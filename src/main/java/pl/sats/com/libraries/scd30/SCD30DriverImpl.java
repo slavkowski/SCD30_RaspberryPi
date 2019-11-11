@@ -6,17 +6,17 @@ import com.pi4j.io.i2c.I2CFactory;
 
 import java.io.IOException;
 
-public class SCD30Impl implements SCD30 {
+public class SCD30DriverImpl implements SCD30Driver {
 
     private I2CDevice device;
     private byte[] bufferForTesting;
     private boolean testMode = false;
 
-    public SCD30Impl() throws IOException, I2CFactory.UnsupportedBusNumberException {
+    public SCD30DriverImpl() throws IOException, I2CFactory.UnsupportedBusNumberException {
         initializeSCD30();
     }
 
-    public SCD30Impl(boolean testMode) {
+    public SCD30DriverImpl(boolean testMode) {
         bufferForTesting = new byte[5];
         this.testMode = testMode;
     }

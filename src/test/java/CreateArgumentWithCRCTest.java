@@ -1,10 +1,10 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.com.libraries.scd30.SCD30Impl;
+import pl.sats.com.libraries.scd30.SCD30DriverImpl;
 
 
 class CreateArgumentWithCRCTest {
-    private SCD30Impl scd30 = new SCD30Impl(true);
+    private SCD30DriverImpl scd30 = new SCD30DriverImpl(true);
 
     CreateArgumentWithCRCTest(){
     }

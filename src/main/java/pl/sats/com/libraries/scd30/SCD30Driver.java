@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  *
  */
-public interface SCD30 {
+public interface SCD30Driver {
     int SCD30_I2C_ADDRESS = 0x61;
 
     int SCD30_CONTINUOUS_MEASUREMENT = 0x0010;
