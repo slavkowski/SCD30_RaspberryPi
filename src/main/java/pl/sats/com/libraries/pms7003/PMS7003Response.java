@@ -72,7 +72,7 @@ public class PMS7003Response {
 
     }
 
-    void printPMS7003Data() {
+    public void printPMS7003Data() {
         for (PMS7003ReturnObject o : pms7003Objects) {
             System.out.println(o.toString());
         }

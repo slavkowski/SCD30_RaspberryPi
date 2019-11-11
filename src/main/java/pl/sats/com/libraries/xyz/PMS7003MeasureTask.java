@@ -2,19 +2,19 @@ package pl.sats.com.libraries.xyz;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.sats.com.libraries.pms7003.PMS7003;
+import pl.sats.com.libraries.pms7003.PMS7003Driver;
 
 import java.time.Duration;
 import java.util.concurrent.*;
 
 public class PMS7003MeasureTask implements Runnable {
 
-    private static final Logger log = LoggerFactory.getLogger(PMS7003.class);
+    private static final Logger log = LoggerFactory.getLogger(PMS7003Driver.class);
 
-    private PMS7003Driver driver;
+    private pl.sats.com.libraries.xyz.PMS7003Driver driver;
     private ScheduledExecutorService scheduler;
 
-    public PMS7003MeasureTask(PMS7003Driver driver, ScheduledExecutorService scheduler) {
+    public PMS7003MeasureTask(pl.sats.com.libraries.xyz.PMS7003Driver driver, ScheduledExecutorService scheduler) {
         this.driver = driver;
         this.scheduler = scheduler;
     }

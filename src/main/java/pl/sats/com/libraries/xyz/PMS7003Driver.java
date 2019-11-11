@@ -3,7 +3,6 @@ package pl.sats.com.libraries.xyz;
 import com.pi4j.io.serial.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.sats.com.libraries.pms7003.PMS7003;
 
 import java.io.IOException;
 import java.time.Instant;

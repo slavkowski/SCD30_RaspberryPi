@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class PMS7003 {
+public class PMS7003Driver {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PMS7003.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PMS7003Driver.class);
 
     private static final int FRAME_SIZE = 32;
     private static final byte START_BYTE_1 = 0x42;
@@ -20,7 +20,7 @@ public class PMS7003 {
     private final Serial serial;
     private PMS7003Response pms7003Response;
 
-    public PMS7003() throws IOException, InterruptedException {
+    public PMS7003Driver() throws IOException, InterruptedException {
         config.device("/dev/ttyUSB0")
                 .baud(Baud._9600)
                 .dataBits(DataBits._8)
@@ -48,22 +48,28 @@ public class PMS7003 {
         serial.close();
     }
 
-    void setSleep() throws IOException {
+    void setSleep() {
         byte[] command = {0x42, 0x4D, (byte) 0xE4, 0x00, 0x00, 0x01, 0x73};
-        System.out.println("Open serial to set sleep");
-        serial.open(config);
-        serial.write(command);
-        System.out.println("Close serial after setting sleep");
-        serial.close();
+        LOG.info("Setting PMS7003 into sleep mode");
+        try {
+            serial.open(config);
+            serial.write(command);
+            serial.close();
+        } catch (IOException e) {
+            LOG.warn("IOException during setting sleep mode");
+        }
     }
 
-    void wakeUp() throws IOException {
+    void wakeUp() {
         byte[] command = {0x42, 0x4D, (byte) 0xE4, 0x00, 0x01, 0x01, 0x74};
-        System.out.println("Open serial to set wake up");
-        serial.open(config);
-        serial.write(command);
-        System.out.println("Close serial after wake up");
-        serial.close();
+        LOG.info("PMS7003 is being waking up");
+        try {
+            serial.open(config);
+            serial.write(command);
+            serial.close();
+        } catch (IOException e) {
+            LOG.warn("IOException during waking up");
+        }
     }
 
 
@@ -82,7 +88,6 @@ public class PMS7003 {
                         LOG.warn("Response doesn't have 32 bytes");
                     }
                 }
-
             } catch (IOException e) {
                 LOG.error("Failed to read bytes from event. {}", e.getMessage());
             }
@@ -90,19 +95,19 @@ public class PMS7003 {
 
         serial.addListener(serialDataEventListener);
 
-        System.out.println("Open serial for measuring");
+        LOG.info("Open serial for measuring");
         serial.open(config);
-        System.out.println("Serial reading");
+        LOG.info("Serial reading");
         serial.read();
-        System.out.println("Measuring" + Thread.currentThread().getName());
-        System.out.println("Measure interval: 60sec");
+        LOG.info("Measuring" + Thread.currentThread().getName());
+        LOG.info("Measure interval: 60sec");
         Thread.sleep(60000);
-        System.out.println("Remove listener");
+        LOG.info("Remove listener");
         serial.removeListener(serialDataEventListener);
-        System.out.println("Close serial after measuring");
+        LOG.info("Close serial after measuring");
         serial.close();
         setSleep();
-        System.out.println("Remove executor");
+        LOG.info("Remove executor");
         SerialFactory.getExecutorServiceFactory().shutdown();
     }
 
