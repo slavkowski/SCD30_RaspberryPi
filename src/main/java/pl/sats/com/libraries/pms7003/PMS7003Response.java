@@ -1,5 +1,7 @@
 package pl.sats.com.libraries.pms7003;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.sats.com.libraries.xyz.PMS7003Measurement;
 
 import java.util.ArrayList;
@@ -9,6 +11,9 @@ import java.util.List;
  *
  */
 public class PMS7003Response {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PMS7003Response.class);
+
     private float pm1_0_atmAM;
     private int pm1_0_atmRMS;
     private float pm2_5_atmAM;
@@ -74,14 +79,14 @@ public class PMS7003Response {
 
     public void printPMS7003Data() {
         for (PMS7003ReturnObject o : pms7003Objects) {
-            System.out.println(o.toString());
+            LOG.info(o.toString());
         }
 
     }
 
     void printRawData() {
         for (String line : dataSet) {
-            System.out.println(line);
+            LOG.info(line);
         }
     }
 

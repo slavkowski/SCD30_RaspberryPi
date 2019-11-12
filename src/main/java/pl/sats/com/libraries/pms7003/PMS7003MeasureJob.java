@@ -37,6 +37,7 @@ public class PMS7003MeasureJob implements Runnable {
         }
         try {
             LOG.info("Save PMS7003 into db");
+//            pms7003Response.printPMS7003Data();
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO pms7003 (pm1_0_atm, pm2_5_atm, pm10_0_atm, ts) VALUES (?,?,?,?)");
             stmt.setFloat(1, pms7003Response.getPm1_0_atmAM());
             stmt.setFloat(2, pms7003Response.getPm2_5_atmAM());
