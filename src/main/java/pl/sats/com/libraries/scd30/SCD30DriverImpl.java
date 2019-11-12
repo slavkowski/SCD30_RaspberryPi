@@ -3,10 +3,14 @@ package pl.sats.com.libraries.scd30;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class SCD30DriverImpl implements SCD30Driver {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SCD30DriverImpl.class);
 
     private I2CDevice device;
     private byte[] bufferForTesting;

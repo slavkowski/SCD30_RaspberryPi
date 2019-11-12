@@ -28,10 +28,12 @@ public class PMS7003Driver {
                 .stopBits(StopBits._1)
                 .flowControl(FlowControl.NONE);
         serial = SerialFactory.createInstance();
+        LOG.info("Opening serial");
+        serial.open(config);
 
         wakeUp();
-        LOG.info("Warming up [60sec]");
-        Thread.sleep(60000);
+        LOG.info("Warming up [120sec]");
+        Thread.sleep(120000);
     }
 
     void setPassiveMode() throws IOException {
@@ -52,9 +54,7 @@ public class PMS7003Driver {
         byte[] command = {0x42, 0x4D, (byte) 0xE4, 0x00, 0x00, 0x01, 0x73};
         LOG.info("Setting PMS7003 into sleep mode");
         try {
-            serial.open(config);
             serial.write(command);
-            serial.close();
         } catch (IOException e) {
             LOG.warn("IOException during setting sleep mode");
         }
@@ -64,9 +64,7 @@ public class PMS7003Driver {
         byte[] command = {0x42, 0x4D, (byte) 0xE4, 0x00, 0x01, 0x01, 0x74};
         LOG.info("PMS7003 is being waking up");
         try {
-            serial.open(config);
             serial.write(command);
-            serial.close();
         } catch (IOException e) {
             LOG.warn("IOException during waking up");
         }
@@ -95,8 +93,6 @@ public class PMS7003Driver {
 
         serial.addListener(serialDataEventListener);
 
-        LOG.info("Open serial for measuring");
-        serial.open(config);
         LOG.info("Serial reading");
         serial.read();
         LOG.info("Measuring" + Thread.currentThread().getName());
@@ -104,9 +100,9 @@ public class PMS7003Driver {
         Thread.sleep(60000);
         LOG.info("Remove listener");
         serial.removeListener(serialDataEventListener);
+        setSleep();
         LOG.info("Close serial after measuring");
         serial.close();
-        setSleep();
         LOG.info("Remove executor");
         SerialFactory.getExecutorServiceFactory().shutdown();
     }
