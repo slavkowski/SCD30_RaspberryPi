@@ -1,8 +1,11 @@
 package pl.sats.com.libraries;
 
 
+import pl.sats.com.libraries.geigerDetector.GeigerDetectorDriver;
+
 public class Main {
     public static void main(String[] args) {
+        GeigerDetectorDriver geigerDetectorDriver = new GeigerDetectorDriver();
 //        final Logger LOG = LoggerFactory.getLogger(Main.class);
 //        LOG.info("Thread start: " + Thread.currentThread().getName());
 //        PMS7003MeasureJob t1 = new PMS7003MeasureJob();

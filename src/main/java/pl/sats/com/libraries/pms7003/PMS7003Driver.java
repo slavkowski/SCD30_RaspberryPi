@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class PMS7003Driver {
 
@@ -20,20 +21,29 @@ public class PMS7003Driver {
     private final Serial serial;
     private PMS7003Response pms7003Response;
 
-    public PMS7003Driver() throws IOException, InterruptedException {
-        config.device("/dev/ttyUSB0")
+    public PMS7003Driver() {
+        config.device("/dev/ttyAMA0")
                 .baud(Baud._9600)
                 .dataBits(DataBits._8)
                 .parity(Parity.NONE)
                 .stopBits(StopBits._1)
                 .flowControl(FlowControl.NONE);
         serial = SerialFactory.createInstance();
+        serial.setBufferingDataReceived(false);
         LOG.info("Opening serial");
-        serial.open(config);
+        try {
+            serial.open(config);
+        } catch (IOException e) {
+            LOG.warn("IOException when open serial connection during PMS7003 initialization -> {}",e.getMessage());
+        }
 
         wakeUp();
         LOG.info("Warming up [120sec]");
-        Thread.sleep(120000);
+        try {
+            Thread.sleep(120000);
+        } catch (InterruptedException e) {
+            LOG.warn("IOException during warming up device -> {}",e.getMessage());
+        }
     }
 
     void setPassiveMode() throws IOException {
@@ -56,7 +66,7 @@ public class PMS7003Driver {
         try {
             serial.write(command);
         } catch (IOException e) {
-            LOG.warn("IOException during setting sleep mode");
+            LOG.warn("IOException during setting sleep mode -> {}", e.getMessage());
         }
     }
 
@@ -66,12 +76,12 @@ public class PMS7003Driver {
         try {
             serial.write(command);
         } catch (IOException e) {
-            LOG.warn("IOException during waking up");
+            LOG.warn("IOException during waking up -> {}", e.getMessage());
         }
     }
 
 
-    void getDataFromSensor() throws InterruptedException, IOException {
+    void getDataFromSensor() {
         pms7003Response = new PMS7003Response();
 
         SerialDataEventListener serialDataEventListener = event -> {
@@ -87,22 +97,37 @@ public class PMS7003Driver {
                     }
                 }
             } catch (IOException e) {
-                LOG.error("Failed to read bytes from event. {}", e.getMessage());
+                LOG.error("Failed to read bytes from event -> {}", e.getMessage());
             }
         };
 
         serial.addListener(serialDataEventListener);
 
-        LOG.info("Serial reading");
-        serial.read();
+
+//        try {
+//            LOG.info("Thread sleep: 0.5 sec");
+//            Thread.sleep(500);
+//            LOG.info("Serial reading");
+//            serial.read();
+//        } catch (IOException | InterruptedException e) {
+//            LOG.warn("IOException during serial reading -> {}",e.getMessage());
+//        }
         LOG.info("Measuring" + Thread.currentThread().getName());
         LOG.info("Measure interval: 60sec");
-        Thread.sleep(60000);
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            LOG.warn("InterruptedException during measuring -> {}",e.getMessage());
+        }
         LOG.info("Remove listener");
         serial.removeListener(serialDataEventListener);
         setSleep();
         LOG.info("Close serial after measuring");
-        serial.close();
+        try {
+            serial.close();
+        } catch (IOException e) {
+            LOG.warn("IOException during closing after measure -> {}",e.getMessage());
+        }
         LOG.info("Remove executor");
         SerialFactory.getExecutorServiceFactory().shutdown();
     }

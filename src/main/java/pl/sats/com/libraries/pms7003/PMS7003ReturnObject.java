@@ -1,9 +1,6 @@
 package pl.sats.com.libraries.pms7003;
 
 public class PMS7003ReturnObject {
-    private int pm1_0_cf1;
-    private int pm2_5_cf1;
-    private int pm10_0_cf1;
     private int pm1_0_atm;
     private int pm2_5_atm;
     private int pm10_0_atm;
@@ -66,9 +63,6 @@ public class PMS7003ReturnObject {
     @Override
     public String toString() {
         return "PMS7003ReturnObject{" +
-                "pm1_0_cf1=" + pm1_0_cf1 +
-                ", pm2_5_cf1=" + pm2_5_cf1 +
-                ", pm10_0_cf1=" + pm10_0_cf1 +
                 ", pm1_0_atm=" + pm1_0_atm +
                 ", pm2_5_atm=" + pm2_5_atm +
                 ", pm10_0_atm=" + pm10_0_atm +

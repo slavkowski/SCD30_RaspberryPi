@@ -28,13 +28,11 @@ public class PMS7003MeasureJob implements Runnable {
     @Override
     public void run() {
         LOG.info("Beginning of thread: " + Thread.currentThread().getName());
-        try {
+
             pms7003Driver = new PMS7003Driver();
             pms7003Driver.getDataFromSensor();
             pms7003Response = pms7003Driver.getPms7003Response();
-        } catch (IOException | InterruptedException e) {
-            LOG.warn("IOException or InterruptedException -> {}", e.getMessage());
-        }
+
         try {
             LOG.info("Save PMS7003 into db");
 //            pms7003Response.printPMS7003Data();

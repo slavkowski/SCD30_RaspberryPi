@@ -26,25 +26,13 @@
         <dependency>
             <groupId>com.pi4j</groupId>
             <artifactId>pi4j-core</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>2.0.0-alpha1</version>
         </dependency>
-<!--         Needed if run SensorLib standalone-->
-<!--        <dependency>-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>slf4j-simple</artifactId>-->
-<!--            <version>2.0.0-alpha1</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.slf4j</groupId>-->
-<!--            <artifactId>slf4j-log4j12</artifactId>-->
-<!--            <version>2.0.0-alpha1</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
 
     </dependencies>
     <build>
