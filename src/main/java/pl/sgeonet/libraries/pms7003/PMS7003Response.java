@@ -1,8 +1,7 @@
-package pl.sats.com.libraries.pms7003;
+package pl.sgeonet.libraries.pms7003;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.sats.com.libraries.xyz.PMS7003Measurement;
 
 import java.util.ArrayList;
 import java.util.List;

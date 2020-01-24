@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.geigerDetector;
+package pl.sgeonet.libraries.geigerDetector;
 
 public class GeigerTubeImpulseHandler {
     private static long countsPerMinute = 0;

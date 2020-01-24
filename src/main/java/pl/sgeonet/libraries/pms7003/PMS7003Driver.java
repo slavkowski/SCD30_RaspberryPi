@@ -1,11 +1,10 @@
-package pl.sats.com.libraries.pms7003;
+package pl.sgeonet.libraries.pms7003;
 
 import com.pi4j.io.serial.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class PMS7003Driver {
 

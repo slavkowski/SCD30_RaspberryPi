@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.pms7003;
+package pl.sgeonet.libraries.pms7003;
 
 public class PMS7003ReturnObject {
     private int pm1_0_atm;

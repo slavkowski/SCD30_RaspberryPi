@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.xyz;
+package pl.sgeonet.libraries.xyz;
 
 import com.pi4j.io.serial.*;
 import org.slf4j.Logger;

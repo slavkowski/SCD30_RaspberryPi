@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.xyz;
+package pl.sgeonet.libraries.xyz;
 
 import java.time.Instant;
 

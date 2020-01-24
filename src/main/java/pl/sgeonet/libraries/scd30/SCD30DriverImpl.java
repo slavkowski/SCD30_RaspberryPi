@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.scd30;
+package pl.sgeonet.libraries.scd30;
 
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;

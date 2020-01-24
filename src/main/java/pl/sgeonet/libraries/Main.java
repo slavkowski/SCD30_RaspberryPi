@@ -1,7 +1,7 @@
-package pl.sats.com.libraries;
+package pl.sgeonet.libraries;
 
 
-import pl.sats.com.libraries.geigerDetector.GeigerDetectorDriver;
+import pl.sgeonet.libraries.geigerDetector.GeigerDetectorDriver;
 
 public class Main {
     public static void main(String[] args) {
