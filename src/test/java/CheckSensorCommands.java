@@ -1,11 +1,11 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.sats.com.libraries.scd30.SCD30Impl;
+import pl.sgeonet.libraries.scd30.SCD30DriverImpl;
 
 import java.io.IOException;
 
 class CheckSensorCommands {
-    private SCD30Impl scd30 = new SCD30Impl(true);
+    private SCD30DriverImpl scd30 = new SCD30DriverImpl(true);
     @Test
     void shouldReturnSoftReset() throws IOException {
         scd30.softReset();

@@ -1,22 +1,26 @@
-package pl.sats.com.libraries.scd30;
+package pl.sgeonet.libraries.scd30;
 
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class SCD30Impl implements SCD30 {
+public class SCD30DriverImpl implements SCD30Driver {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SCD30DriverImpl.class);
 
     private I2CDevice device;
     private byte[] bufferForTesting;
     private boolean testMode = false;
 
-    public SCD30Impl() throws IOException, I2CFactory.UnsupportedBusNumberException {
+    public SCD30DriverImpl() throws IOException, I2CFactory.UnsupportedBusNumberException {
         initializeSCD30();
     }
 
-    public SCD30Impl(boolean testMode) {
+    public SCD30DriverImpl(boolean testMode) {
         bufferForTesting = new byte[5];
         this.testMode = testMode;
     }

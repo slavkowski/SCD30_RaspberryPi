@@ -1,4 +1,4 @@
-package pl.sats.com.libraries.scd30;
+package pl.sgeonet.libraries.scd30;
 
 import com.pi4j.io.i2c.I2CFactory;
 
@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  *
  */
-public interface SCD30 {
+public interface SCD30Driver {
     int SCD30_I2C_ADDRESS = 0x61;
 
     int SCD30_CONTINUOUS_MEASUREMENT = 0x0010;
