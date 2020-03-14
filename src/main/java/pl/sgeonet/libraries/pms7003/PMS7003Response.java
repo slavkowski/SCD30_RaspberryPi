@@ -63,7 +63,8 @@ public class PMS7003Response {
             pm10_0_countAM += pms7003ReturnObject.getPm10_0_count();
 
         }
-//        printPMS7003Data();
+        printPMS7003Data();
+        printRawData();
         pm1_0_atmAM /= (float) numberOfObservations;
         pm2_5_atmAM /= (float) numberOfObservations;
         pm10_0_atmAM /= (float) numberOfObservations;

@@ -102,15 +102,6 @@ public class PMS7003Driver {
 
         serial.addListener(serialDataEventListener);
 
-
-//        try {
-//            LOG.info("Thread sleep: 0.5 sec");
-//            Thread.sleep(500);
-//            LOG.info("Serial reading");
-//            serial.read();
-//        } catch (IOException | InterruptedException e) {
-//            LOG.warn("IOException during serial reading -> {}",e.getMessage());
-//        }
         LOG.info("Measuring" + Thread.currentThread().getName());
         LOG.info("Measure interval: 60sec");
         try {
@@ -119,6 +110,7 @@ public class PMS7003Driver {
             LOG.warn("InterruptedException during measuring -> {}",e.getMessage());
         }
         LOG.info("Remove listener");
+
         serial.removeListener(serialDataEventListener);
         setSleep();
         LOG.info("Close serial after measuring");
