@@ -30,10 +30,10 @@ public class GeigerDetectorDriver {
         GpioPinListenerDigital gpioPinListenerDigital = event -> {
             if (event.getEdge() == PinEdge.RISING) {
                 counts++;
-                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
+//                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
+                LOG.info(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
             }
         };
-
 
         geigerEvent.addListener((gpioPinListenerDigital));
         LOG.info("Measuring" + Thread.currentThread().getName());

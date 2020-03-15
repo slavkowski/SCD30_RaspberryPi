@@ -3,10 +3,10 @@ package pl.sgeonet.libraries.geigerDetector;
 public class GMDetectorResponse {
     private int timeOfMeasurement;
     private long countsTotal;
-    private double CPS;
-    private double CPM;
-    private final double SMB20Ratio = 2.9;
-    private double radiationPerHour;
+    private float CPS;
+    private float CPM;
+    private final float SMB20Ratio = 2.9f;
+    private float radiationPerHour;
 
     public int getTimeOfMeasurement() {
         return timeOfMeasurement;
@@ -22,17 +22,25 @@ public class GMDetectorResponse {
 
     public void setCountsTotal(long countsTotal) {
         this.countsTotal = countsTotal;
-        this.CPS = (double) countsTotal / timeOfMeasurement;
+        this.CPS = (float) countsTotal / timeOfMeasurement;
         this.radiationPerHour = this.CPS / SMB20Ratio;
-        this.CPM = (double) countsTotal / (60.0 / timeOfMeasurement);
+        this.CPM = (float) countsTotal / (60.0f / timeOfMeasurement);
     }
 
-    public double getCPS() {
+    public float getCPS() {
         return CPS;
     }
 
-    public double getCPM() {
+    public float getCPM() {
         return CPM;
+    }
+
+    public float getSMB20Ratio() {
+        return SMB20Ratio;
+    }
+
+    public float getRadiationPerHour() {
+        return radiationPerHour;
     }
 
     @Override
