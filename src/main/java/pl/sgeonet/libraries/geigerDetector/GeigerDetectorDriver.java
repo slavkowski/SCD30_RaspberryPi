@@ -25,13 +25,14 @@ public class GeigerDetectorDriver {
 
         GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
         final GpioController gpio = GpioFactory.getInstance();
-        GpioPinDigitalInput geigerEvent = gpio.provisionDigitalInputPin(RaspiPin.GPIO_17, "MyButton", PinPullResistance.PULL_DOWN);
+        GpioPinDigitalInput geigerEvent = gpio.provisionDigitalInputPin(RaspiPin.GPIO_17, "GM_DETECTOR", PinPullResistance.PULL_DOWN);
+
 
         GpioPinListenerDigital gpioPinListenerDigital = event -> {
             if (event.getEdge() == PinEdge.RISING) {
                 counts++;
 //                System.out.println(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
-                LOG.info(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
+//                LOG.info(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = " + event.getEdge() + " TIME:" + new Timestamp(System.currentTimeMillis()));
             }
         };
 
@@ -43,8 +44,12 @@ public class GeigerDetectorDriver {
         } catch (InterruptedException e) {
             LOG.warn("InterruptedException during measuring -> {}", e.getMessage());
         }
-        LOG.info("Remove listener");
         geigerEvent.removeListener(gpioPinListenerDigital);
+        LOG.info("Remove listener");
+        gpio.shutdown();
+        LOG.info("GPIO shutdown");
+        gpio.unprovisionPin(geigerEvent);
+        LOG.info("GPIO unprovision Pin");
         GpioFactory.getExecutorServiceFactory().shutdown();
         gmDetectorResponse.setTimeOfMeasurement(measurementTimeInSeconds);
         gmDetectorResponse.setCountsTotal(counts);

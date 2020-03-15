@@ -26,7 +26,7 @@ public class GMDetectorMeasureJob implements Runnable {
 
     public void run() {
         LOG.info("Beginning of thread: " + Thread.currentThread().getName());
-        GeigerDetectorDriver geigerDetectorDriver = new GeigerDetectorDriver(60);
+        GeigerDetectorDriver geigerDetectorDriver = new GeigerDetectorDriver(840);
 
         GMDetectorResponse gmDetectorResponse = geigerDetectorDriver.getGmDetectorResponse();
         LOG.info(geigerDetectorDriver.getGmDetectorResponse().toString());
