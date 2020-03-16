@@ -24,7 +24,7 @@ public class GMDetectorResponse {
         this.countsTotal = countsTotal;
         this.CPS = (float) countsTotal / timeOfMeasurement;
         this.radiationPerHour = this.CPS / SMB20Ratio;
-        this.CPM = (float) countsTotal / (60.0f / timeOfMeasurement);
+        this.CPM = (float) countsTotal / (timeOfMeasurement / 60.0f);
     }
 
     public float getCPS() {

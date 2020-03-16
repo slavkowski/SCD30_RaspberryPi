@@ -46,11 +46,11 @@ public class GeigerDetectorDriver {
         }
         geigerEvent.removeListener(gpioPinListenerDigital);
         LOG.info("Remove listener");
-        gpio.shutdown();
+//        gpio.shutdown();
         LOG.info("GPIO shutdown");
         gpio.unprovisionPin(geigerEvent);
         LOG.info("GPIO unprovision Pin");
-        GpioFactory.getExecutorServiceFactory().shutdown();
+//        GpioFactory.getExecutorServiceFactory().shutdown();
         gmDetectorResponse.setTimeOfMeasurement(measurementTimeInSeconds);
         gmDetectorResponse.setCountsTotal(counts);
     }
