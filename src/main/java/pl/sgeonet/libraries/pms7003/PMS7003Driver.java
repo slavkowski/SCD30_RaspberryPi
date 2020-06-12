@@ -115,6 +115,7 @@ public class PMS7003Driver {
         setSleep();
         LOG.info("Close serial after measuring");
         try {
+            serial.discardInput();
             serial.close();
         } catch (IOException e) {
             LOG.warn("IOException during closing after measure -> {}",e.getMessage());

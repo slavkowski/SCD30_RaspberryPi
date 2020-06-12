@@ -29,6 +29,7 @@ public class SCD30DriverImpl implements SCD30Driver {
     public void initializeSCD30() throws IOException, I2CFactory.UnsupportedBusNumberException {
         I2CBus i2CBus = I2CFactory.getInstance(I2CBus.BUS_1);
         device = i2CBus.getDevice(SCD30_I2C_ADDRESS);
+
     }
 
     @Override

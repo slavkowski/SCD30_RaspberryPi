@@ -3,6 +3,7 @@ package pl.sgeonet.libraries.pms7003;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ public class PMS7003MeasureJob implements Runnable {
     public Thread t;
     private PMS7003Driver pms7003Driver;
     private PMS7003Response pms7003Response;
+    private DataSource dataSource;
     private Connection conn;
 
     public PMS7003MeasureJob() {
@@ -20,8 +22,8 @@ public class PMS7003MeasureJob implements Runnable {
         t.start();
     }
 
-    public PMS7003MeasureJob(Connection conn) {
-        this.conn = conn;
+    public PMS7003MeasureJob(DataSource dataSource) {
+        this.dataSource = dataSource;
         t = new Thread(this, "PMS7003");
         t.start();
     }
@@ -36,6 +38,9 @@ public class PMS7003MeasureJob implements Runnable {
 
         try {
             LOG.info("Save PMS7003 into db");
+            LOG.info("Create connection");
+            Connection conn = dataSource.getConnection();
+            LOG.info("Prepare statement");
             LOG.info("PM 1.0: " + pms7003Response.getPm1_0_atmAM() + " PM 2.5: " + pms7003Response.getPm2_5_atmAM() + " PM 10.0: " + pms7003Response.getPm10_0_atmAM());
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO pms7003 (pm1_0_atm, pm2_5_atm, pm10_0_atm, ts) VALUES (?,?,?,?)");
             stmt.setFloat(1, pms7003Response.getPm1_0_atmAM());
